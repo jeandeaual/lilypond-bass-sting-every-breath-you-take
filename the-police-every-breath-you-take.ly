@@ -70,7 +70,9 @@ sectionA = {
 }
 
 sectionB = {
-  <>^\segno
+  <>
+  -\tweak X-offset #-2
+  ^\segno
   \repeat unfold 8 des
   \repeat unfold 8 bes
   \repeat percent 2 \repeat unfold 8 aes
@@ -114,7 +116,9 @@ sectionAPrime = {
 }
 
 sectionAPrimeCoda = {
-  <>^\coda
+  <>
+  -\tweak X-offset #-2
+  ^\coda
   \repeat unfold 8 des
   \repeat unfold 8 ees\3
   \repeat percent 4 \repeat unfold 8 f,

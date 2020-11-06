@@ -2,6 +2,7 @@
 
 \header {
   title = "Every Breath You Take"
+  subtitle = "見つめていたい"
   composer = "The Police"
   pdfarranger = "東 幸治"
   author = \markup \fromproperty #'header:composer
@@ -16,6 +17,11 @@
 
 \paper {
   indent = 0\mm
+  #(define fonts
+    (set-global-fonts
+     #:music "gonville"
+     #:brace "gonville"
+   ))
 }
 
 section =
@@ -144,7 +150,7 @@ song = \relative c, {
   \section "A′"
   \sectionAPrime
   \sectionAPrimeCoda
-  \section "Outro"
+  \section "Out"
   \outro
 }
 

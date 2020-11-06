@@ -14,15 +14,15 @@ jobs:
       - name: Make the output directories
         run: mkdir -p build/{a4,letter,svg,midi}
       - name: Build A4 PDF
-        uses: docker://jeandeaual/lilypond:latest
+        uses: docker://jeandeaual/lilypond:devel-fonts
         with:
           args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/a4 the-police-every-breath-you-take.ly
       - name: Build Letter PDF
-        uses: docker://jeandeaual/lilypond:latest
+        uses: docker://jeandeaual/lilypond:devel-fonts
         with:
           args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"letter\" -o build/letter the-police-every-breath-you-take.ly
       - name: Build SVG
-        uses: docker://jeandeaual/lilypond:latest
+        uses: docker://jeandeaual/lilypond:devel-fonts
         with:
           args: lilypond --svg -dno-point-and-click -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/svg the-police-every-breath-you-take.ly
       - name: Remove extra MIDI files

@@ -1,0 +1,184 @@
+\version "2.20.0"
+
+\header {
+  title = "Every Breath You Take"
+  composer = "The Police"
+  pdfarranger = "東 幸治"
+  author = \markup \fromproperty #'header:composer
+  subject = \markup \concat { \fromproperty #'header:title " Bass Partition" }
+  keywords = #(string-join '(
+    "music"
+    "partition"
+    "bass"
+  ) ", ")
+  tagline = ##f
+}
+
+\paper {
+  indent = 0\mm
+}
+
+section =
+#(define-music-function
+     (text)
+     (string?)
+   #{
+     \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
+     \once \override Score.RehearsalMark.padding = #2
+     \mark \markup \rounded-box \bold #text
+   #})
+
+DScoda = {
+  \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
+  \once \override Score.RehearsalMark.direction = #DOWN
+  \once \override Score.RehearsalMark.break-visibility = ##(#t #t #f)
+  \mark \markup { \small "D.S. al Coda" }
+}
+
+ToCoda = {
+  \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
+  \once \override Score.RehearsalMark.direction = #DOWN
+  \once \override Score.RehearsalMark.break-visibility = ##(#t #t #f)
+  \mark \markup { \small "To Coda" }
+}
+
+song = \relative c, {
+  \section "Intro"
+  \repeat percent 2 \repeat unfold 8 aes8
+  \repeat percent 2 \repeat unfold 8 f
+  \break
+  \repeat unfold 8 des'
+  \repeat unfold 8 ees
+  \repeat percent 2 \repeat unfold 8 aes,
+  \break
+  \section "A"
+  \repeat percent 2 \repeat unfold 8 aes
+  \repeat percent 2 \repeat unfold 8 f
+  \break
+  \repeat unfold 8 des'
+  \repeat unfold 8 ees
+  \repeat percent 2 \repeat unfold 8 f,
+  \break
+  \repeat percent 2 \repeat unfold 8 aes
+  \repeat percent 2 \repeat unfold 8 f
+  \break
+  \repeat unfold 8 des'
+  \repeat unfold 8 ees
+  \repeat percent 2 \repeat unfold 8 aes,
+  \break
+  \section "B"
+  \repeat unfold 8 des
+  \repeat unfold 8 bes
+  \repeat percent 2 \repeat unfold 8 aes
+  \break
+  \repeat percent 2 \repeat unfold 8 bes
+  \repeat percent 2 \repeat unfold 8 ees
+  \break
+  \section "A′"
+  <>^\segno
+  \repeat percent 2 \repeat unfold 8 aes,
+  \repeat percent 2 \repeat unfold 8 f
+  \break
+  \repeat unfold 8 des'
+  \repeat unfold 8 ees
+  \repeat percent 2 \repeat unfold 8 f,
+  \ToCoda
+  \break
+  \repeat unfold 3 {
+    \repeat percent 2 \repeat unfold 8 ees'
+    \repeat percent 2 \repeat unfold 8 ges,
+  }
+  \break
+  \repeat volta 2 {
+    \repeat percent 2 \repeat unfold 8 aes
+    \repeat percent 2 \repeat unfold 8 f
+    \break
+    \repeat unfold 8 des'
+    \repeat unfold 8 ees
+  }
+  \alternative {
+    \repeat percent 2 \repeat unfold 8 f,
+    \repeat percent 2 \repeat unfold 8 aes
+  }
+  \DScoda
+  \break
+  <>^\coda
+  \repeat unfold 8 des
+  \repeat unfold 8 ees
+  \repeat percent 4 \repeat unfold 8 f,
+  \break
+  \section "Outro"
+  \repeat volta 2 {
+    \repeat percent 2 \repeat unfold 8 aes
+    \repeat unfold 8 f
+    \repeat unfold 8 des'
+  }
+}
+
+staff = \new Staff \with {
+    midiInstrument = #"electric bass (finger)"
+} {
+  \override Score.MetronomeMark.self-alignment-X = #RIGHT
+  \tempo 4 = 117
+  \clef "bass_8"
+  \key f \minor
+  \numericTimeSignature
+  \time 4/4
+  \song
+}
+
+\score {
+  \new StaffGroup <<
+    \new ChordNames {
+      % \set additionalPitchPrefix = "add"
+      \chords {
+        % Intro
+        aes1:9 s f:m9 s
+        des:9 ees:9 aes:9 s
+        % A
+        aes1:9 s f:m9 s
+        des:9 ees:9 f:m9 s
+        aes1:9 s f:m9 s
+        des:9 ees:9 aes:9 s
+        % B
+        des:9 des/b aes:9 s
+        bes:9 s ees:9 s
+        % A′
+        aes:9 s f:m9 s
+        des:9 ees:9 f:m9 s
+        \repeat unfold 3 {
+          e s ges s
+        }
+        \repeat volta 2 {
+          aes:9 s f:m9 s
+          des:9 ees:9
+        }
+        \alternative {
+          { f:m9 s }
+          { aes:9 s }
+        }
+        des:9 ees:9 f:m9 s s s
+        % Outro
+        aes:9 s f:m9 des:9
+      }
+    }
+
+    \staff
+
+    \new TabStaff \with {
+      stringTunings = #bass-tuning
+    } {
+      \clef "moderntab"
+      \song
+    }
+  >>
+
+  \layout {
+    \omit Voice.StringNumber
+  }
+}
+
+\score {
+  \unfoldRepeats \staff
+  \midi { }
+}

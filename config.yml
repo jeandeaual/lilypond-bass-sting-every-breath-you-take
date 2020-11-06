@@ -1,0 +1,17 @@
+# yq script file used to update the Jekyll config file of https://github.com/jeandeaual/lilypond-jekyll-template
+# See https://mikefarah.gitbook.io/yq/commands/write-update#using-a-script-file-to-update
+- command: update
+  path: title
+  value: “Every Breath You Take” by The Police
+# Use the short description from the GitHub project
+- command: delete
+  path: description
+- command: update
+  path: baseurl
+  value: /lilypond-bass-the-police-every-breath-you-take
+- command: update
+  path: url
+  value: https://jeandeaual.github.io
+- command: update
+  path: repository
+  value: jeandeaual/lilypond-bass-the-police-every-breath-you-take

@@ -1,0 +1,78 @@
+name: deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Checkout the Jekyll template
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          path: build
+          repository: jeandeaual/lilypond-jekyll-template
+      # Output folders (a4, letter and midi) are included in .gitignore, preventing them to be commited to the gh_pages branch
+      - name: Remove the .gitignore file
+        run: rm build/.gitignore
+      - name: Make the output directories
+        run: mkdir -p build/{a4,letter,svg,midi}
+      - name: Make sure it builds with the version specified in the source file(s)
+        uses: docker://jeandeaual/lilypond:2.20.0
+        with:
+          args: lilypond the-police-every-breath-you-take.ly
+      - name: Build A4 PDF
+        uses: docker://jeandeaual/lilypond:latest
+        with:
+          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/a4 the-police-every-breath-you-take.ly
+      - name: Build Letter PDF
+        uses: docker://jeandeaual/lilypond:latest
+        with:
+          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"letter\" -o build/letter the-police-every-breath-you-take.ly
+      - name: Build SVG
+        uses: docker://jeandeaual/lilypond:latest
+        with:
+          args: lilypond --svg -dno-point-and-click -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/svg the-police-every-breath-you-take.ly
+      - name: Remove extra MIDI files
+        run: |
+          cp build/a4/*.midi build/midi/
+          find . -depth -maxdepth 3 -regex '.*\/midi\/.*' -prune -o -type f -name '*.midi' -delete
+      - name: Get short SHA
+        id: slug
+        run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
+      - name: Upload A4 artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: a4-${{ steps.slug.outputs.sha7 }}
+          path: build/a4
+      - name: Upload Letter artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: letter-${{ steps.slug.outputs.sha7 }}
+          path: build/letter
+      - name: Upload SVG artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: svg-${{ steps.slug.outputs.sha7 }}
+          path: build/svg
+      - name: Upload MIDI artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: midi-${{ steps.slug.outputs.sha7 }}
+          path: build/midi
+      - name: Update the Jekyll config
+        uses: mikefarah/yq@3.4.1
+        with:
+          cmd: yq w -i -s config.yml build/_config.yml
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
+          PRESERVE: true

@@ -95,13 +95,14 @@ sectionAPrime = {
   \sectionAPrimeStart
   \ToCoda
   \break
-  \repeat unfold 3 {
+  \repeat unfold 2 {
     \repeat percent 2 \repeat unfold 8 ees'\3
     \repeat percent 2 \repeat unfold 8 ges,
   }
+  \repeat percent 2 \repeat unfold 8 ees'\3
   \break
   \repeat volta 2 {
-    \repeat percent 2 \repeat unfold 8 aes
+    \repeat percent 2 \repeat unfold 8 aes,
     \repeat percent 2 \repeat unfold 8 f
     \break
     \repeat unfold 8 des'
@@ -166,9 +167,10 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
         % A′
         aes:9 s f:m9 s
         des:9 ees:9 f:m9 s
-        \repeat unfold 3 {
+        \repeat unfold 2 {
           e s ges s
         }
+        e s
         \repeat volta 2 {
           aes:9 s f:m9 s
           des:9 ees:9
@@ -240,8 +242,8 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
   }
 
   \paper {
-    markup-system-spacing.padding = #5
-    system-system-spacing.padding = #8
+    markup-system-spacing.padding = #3
+    system-system-spacing.padding = #5
   }
 
   \score {

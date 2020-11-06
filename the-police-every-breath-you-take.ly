@@ -42,50 +42,59 @@ ToCoda = {
   \mark \markup { \small "To Coda" }
 }
 
-song = \relative c, {
-  \section "Intro"
+intro = {
   \repeat percent 2 \repeat unfold 8 aes8
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
-  \repeat unfold 8 ees
+  \repeat unfold 8 ees\3
   \repeat percent 2 \repeat unfold 8 aes,
   \break
-  \section "A"
+}
+
+sectionA = {
   \repeat percent 2 \repeat unfold 8 aes
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
-  \repeat unfold 8 ees
+  \repeat unfold 8 ees\3
   \repeat percent 2 \repeat unfold 8 f,
   \break
   \repeat percent 2 \repeat unfold 8 aes
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
-  \repeat unfold 8 ees
+  \repeat unfold 8 ees\3
   \repeat percent 2 \repeat unfold 8 aes,
   \break
-  \section "B"
+}
+
+sectionB = {
+  <>^\segno
   \repeat unfold 8 des
   \repeat unfold 8 bes
   \repeat percent 2 \repeat unfold 8 aes
   \break
   \repeat percent 2 \repeat unfold 8 bes
-  \repeat percent 2 \repeat unfold 8 ees
+  \repeat percent 2 \repeat unfold 8 ees\3
   \break
-  \section "A′"
-  <>^\segno
+}
+
+sectionAPrimeStart = {
   \repeat percent 2 \repeat unfold 8 aes,
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
-  \repeat unfold 8 ees
+  \repeat unfold 8 ees\3
   \repeat percent 2 \repeat unfold 8 f,
+}
+
+sectionAPrime = {
+  \sectionAPrimeStart
   \ToCoda
   \break
   \repeat unfold 3 {
-    \repeat percent 2 \repeat unfold 8 ees'
+    \repeat percent 2 \repeat unfold 8 ees'\3
     \repeat percent 2 \repeat unfold 8 ges,
   }
   \break
@@ -94,7 +103,7 @@ song = \relative c, {
     \repeat percent 2 \repeat unfold 8 f
     \break
     \repeat unfold 8 des'
-    \repeat unfold 8 ees
+    \repeat unfold 8 ees\3
   }
   \alternative {
     \repeat percent 2 \repeat unfold 8 f,
@@ -102,12 +111,17 @@ song = \relative c, {
   }
   \DScoda
   \break
+}
+
+sectionAPrimeCoda = {
   <>^\coda
   \repeat unfold 8 des
-  \repeat unfold 8 ees
+  \repeat unfold 8 ees\3
   \repeat percent 4 \repeat unfold 8 f,
   \break
-  \section "Outro"
+}
+
+outro = {
   \repeat volta 2 {
     \repeat percent 2 \repeat unfold 8 aes
     \repeat unfold 8 f
@@ -115,9 +129,21 @@ song = \relative c, {
   }
 }
 
-staff = \new Staff \with {
-    midiInstrument = #"electric bass (finger)"
-} {
+song = \relative c, {
+  \section "Intro"
+  \intro
+  \section "A"
+  \sectionA
+  \section "B"
+  \sectionB
+  \section "A′"
+  \sectionAPrime
+  \sectionAPrimeCoda
+  \section "Outro"
+  \outro
+}
+
+staff = \new Staff {
   \override Score.MetronomeMark.self-alignment-X = #RIGHT
   \tempo 4 = 117
   \clef "bass_8"
@@ -179,6 +205,20 @@ staff = \new Staff \with {
 }
 
 \score {
-  \unfoldRepeats \staff
+ \unfoldRepeats \new Staff \with {
+    midiInstrument = #"electric bass (finger)"
+  } {
+    \tempo 4 = 117
+    \time 4/4
+
+    \intro
+    \sectionA
+    \sectionB
+    \sectionAPrime
+    \sectionB
+    \sectionAPrimeStart
+    \sectionAPrimeCoda
+    \outro
+  }
   \midi { }
 }

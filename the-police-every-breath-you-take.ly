@@ -193,6 +193,7 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
 
     \new Staff {
       \override Score.MetronomeMark.self-alignment-X = #RIGHT
+      \accidentalStyle Score.no-reset
       \tempo 4 = 117
       \clef "bass_8"
       \key f \minor

@@ -147,17 +147,7 @@ song = \relative c, {
   \outro
 }
 
-staff = \new Staff {
-  \override Score.MetronomeMark.self-alignment-X = #RIGHT
-  \tempo 4 = 117
-  \clef "bass_8"
-  \key f \minor
-  \numericTimeSignature
-  \time 4/4
-  \song
-}
-
-\score {
+staves = #(define-music-function (scoreOnly) (boolean?) #{
   \new StaffGroup <<
     \new ChordNames {
       % \set additionalPitchPrefix = "add"
@@ -193,36 +183,71 @@ staff = \new Staff {
       }
     }
 
-    \staff
-
-    \new TabStaff \with {
-      stringTunings = #bass-tuning
-    } {
-      \clef "moderntab"
+    \new Staff {
+      \override Score.MetronomeMark.self-alignment-X = #RIGHT
+      \tempo 4 = 117
+      \clef "bass_8"
+      \key f \minor
+      \numericTimeSignature
+      \time 4/4
       \song
     }
-  >>
 
-  \layout {
-    \omit Voice.StringNumber
+    #(if (not scoreOnly) #{
+      \new TabStaff \with {
+        stringTunings = #bass-tuning
+      } {
+        \clef "moderntab"
+        \song
+      }
+    #})
+  >>
+#})
+
+\book {
+  \score {
+    \staves ##f
+    \layout {
+      \omit Voice.StringNumber
+    }
+  }
+
+  \score {
+  \unfoldRepeats \new Staff \with {
+      midiInstrument = #"electric bass (finger)"
+    } {
+      \tempo 4 = 117
+      \time 4/4
+
+      \intro
+      \sectionA
+      \sectionB
+      \sectionAPrime
+      \sectionB
+      \sectionAPrimeStart
+      \sectionAPrimeCoda
+      \outro
+    }
+    \midi { }
   }
 }
 
-\score {
- \unfoldRepeats \new Staff \with {
-    midiInstrument = #"electric bass (finger)"
-  } {
-    \tempo 4 = 117
-    \time 4/4
+\book {
+  \bookOutputSuffix "score-only"
 
-    \intro
-    \sectionA
-    \sectionB
-    \sectionAPrime
-    \sectionB
-    \sectionAPrimeStart
-    \sectionAPrimeCoda
-    \outro
+  \header {
+    pdftitle = \markup \concat { \fromproperty #'header:title " (Score)" }
   }
-  \midi { }
+
+  \paper {
+    markup-system-spacing.padding = #5
+    system-system-spacing.padding = #8
+  }
+
+  \score {
+    \staves ##t
+    \layout {
+      \omit Voice.StringNumber
+    }
+  }
 }

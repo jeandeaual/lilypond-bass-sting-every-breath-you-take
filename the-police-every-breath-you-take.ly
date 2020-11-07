@@ -38,7 +38,7 @@ DScoda = {
   \mark \markup { \small "D.S. al Coda" }
 }
 
-ToCoda = {
+toCoda = {
   \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
   \once \override Score.RehearsalMark.direction = #DOWN
   \once \override Score.RehearsalMark.break-visibility = ##(#t #t #f)
@@ -56,7 +56,7 @@ intro = {
 }
 
 sectionA = {
-  \repeat percent 2 \repeat unfold 8 aes
+  \repeat percent 2 \repeat unfold 8 aes8
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
@@ -76,7 +76,7 @@ sectionB = {
   <>
   -\tweak X-offset #-2
   ^\segno
-  \repeat unfold 8 des
+  \repeat unfold 8 des8
   \repeat unfold 8 bes
   \repeat percent 2 \repeat unfold 8 aes
   \break
@@ -86,7 +86,7 @@ sectionB = {
 }
 
 sectionAPrimeStart = {
-  \repeat percent 2 \repeat unfold 8 aes,
+  \repeat percent 2 \repeat unfold 8 aes,8
   \repeat percent 2 \repeat unfold 8 f
   \break
   \repeat unfold 8 des'
@@ -94,14 +94,15 @@ sectionAPrimeStart = {
   \repeat percent 2 \repeat unfold 8 f,
 }
 
-sectionAPrime = {
+sectionAPrime = #(define-music-function (scoreOnly) (boolean?) #{
   \sectionAPrimeStart
-  \ToCoda
+  \toCoda
   \break
-  \repeat unfold 2 {
-    \repeat percent 2 \repeat unfold 8 ees'\3
-    \repeat percent 2 \repeat unfold 8 ges,
-  }
+  \repeat percent 2 \repeat unfold 8 ees'8\3
+  \repeat percent 2 \repeat unfold 8 ges,
+  #(if scoreOnly #{ \break #})
+  \repeat percent 2 \repeat unfold 8 ees'\3
+  \repeat percent 2 \repeat unfold 8 ges,
   \repeat percent 2 \repeat unfold 8 ees'\3
   \break
   \repeat volta 2 {
@@ -117,13 +118,13 @@ sectionAPrime = {
   }
   \DScoda
   \break
-}
+#})
 
 sectionAPrimeCoda = {
   <>
   -\tweak X-offset #-2
   ^\coda
-  \repeat unfold 8 des
+  \repeat unfold 8 des8
   \repeat unfold 8 ees\3
   \repeat percent 4 \repeat unfold 8 f,
   \break
@@ -131,25 +132,27 @@ sectionAPrimeCoda = {
 
 outro = {
   \repeat volta 2 {
-    \repeat percent 2 \repeat unfold 8 aes
+    \repeat percent 2 \repeat unfold 8 aes8
     \repeat unfold 8 f
     \repeat unfold 8 des'
   }
 }
 
-song = \relative c, {
-  \section "Intro"
-  \intro
-  \section "A"
-  \sectionA
-  \section "B"
-  \sectionB
-  \section "A′"
-  \sectionAPrime
-  \sectionAPrimeCoda
-  \section "Out"
-  \outro
-}
+song = #(define-music-function (scoreOnly) (boolean?) #{
+  \relative c, {
+    \section "Intro"
+    \intro
+    \section "A"
+    \sectionA
+    \section "B"
+    \sectionB
+    \section "A′"
+    \sectionAPrime #scoreOnly
+    \sectionAPrimeCoda
+    \section "Out"
+    \outro
+  }
+#})
 
 staves = #(define-music-function (scoreOnly) (boolean?) #{
   \new StaffGroup <<
@@ -194,7 +197,7 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
       \key f \minor
       \numericTimeSignature
       \time 4/4
-      \song
+      \song #scoreOnly
     }
 
     #(if (not scoreOnly) #{
@@ -202,7 +205,7 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
         stringTunings = #bass-tuning
       } {
         \clef "moderntab"
-        \song
+        \song #scoreOnly
       }
     #})
   >>
@@ -226,7 +229,7 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
       \intro
       \sectionA
       \sectionB
-      \sectionAPrime
+      \sectionAPrime ##f
       \sectionB
       \sectionAPrimeStart
       \sectionAPrimeCoda

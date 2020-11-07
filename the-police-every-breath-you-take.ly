@@ -220,7 +220,7 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
   }
 
   \score {
-  \unfoldRepeats \new Staff \with {
+    \unfoldRepeats \new Staff \with {
       midiInstrument = #"electric bass (finger)"
     } {
       \tempo 4 = 117

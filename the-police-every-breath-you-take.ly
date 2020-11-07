@@ -25,14 +25,11 @@
 }
 
 section =
-#(define-music-function
-     (text)
-     (string?)
-   #{
-     \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
-     \once \override Score.RehearsalMark.padding = #2
-     \mark \markup \rounded-box \bold #text
-   #})
+#(define-music-function (text) (string?) #{
+  \once \override Score.RehearsalMark.self-alignment-X = #RIGHT
+  \once \override Score.RehearsalMark.padding = #2
+  \mark \markup \override #'(thickness . 2) \rounded-box \bold #text
+#})
 
 DScoda = {
   \once \override Score.RehearsalMark.self-alignment-X = #RIGHT

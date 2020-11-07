@@ -2,16 +2,16 @@
 # See https://mikefarah.gitbook.io/yq/commands/write-update#using-a-script-file-to-update
 - command: update
   path: title
-  value: “Every Breath You Take” by The Police
+  value: “Every Breath You Take” by Sting
 # Use the short description from the GitHub project
 - command: delete
   path: description
 - command: update
   path: baseurl
-  value: /lilypond-bass-the-police-every-breath-you-take
+  value: /lilypond-bass-sting-every-breath-you-take
 - command: update
   path: url
   value: https://jeandeaual.github.io
 - command: update
   path: repository
-  value: jeandeaual/lilypond-bass-the-police-every-breath-you-take
+  value: jeandeaual/lilypond-bass-sting-every-breath-you-take

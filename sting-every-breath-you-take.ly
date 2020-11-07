@@ -3,7 +3,7 @@
 \header {
   title = "Every Breath You Take"
   subtitle = "見つめていたい"
-  composer = "The Police"
+  composer = "Sting"
   pdfarranger = "東 幸治"
   author = \markup \fromproperty #'header:composer
   subject = \markup \concat { \fromproperty #'header:title " Bass Partition" }

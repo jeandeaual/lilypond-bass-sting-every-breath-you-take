@@ -25,19 +25,19 @@ jobs:
       - name: Make sure it builds with the version specified in the source file(s)
         uses: docker://jeandeaual/lilypond:2.20.0-fonts
         with:
-          args: lilypond the-police-every-breath-you-take.ly
+          args: lilypond sting-every-breath-you-take.ly
       - name: Build A4 PDF
         uses: docker://jeandeaual/lilypond:devel-fonts
         with:
-          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/a4 the-police-every-breath-you-take.ly
+          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/a4 sting-every-breath-you-take.ly
       - name: Build Letter PDF
         uses: docker://jeandeaual/lilypond:devel-fonts
         with:
-          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"letter\" -o build/letter the-police-every-breath-you-take.ly
+          args: lilypond -dno-point-and-click -dembed-source-code -dmidi-extension="midi" -dpaper-size=\"letter\" -o build/letter sting-every-breath-you-take.ly
       - name: Build SVG
         uses: docker://jeandeaual/lilypond:devel-fonts
         with:
-          args: lilypond --svg -dno-point-and-click -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/svg the-police-every-breath-you-take.ly
+          args: lilypond --svg -dno-point-and-click -dmidi-extension="midi" -dpaper-size=\"a4\" -o build/svg sting-every-breath-you-take.ly
       - name: Remove extra MIDI files
         run: |
           cp build/a4/*.midi build/midi/

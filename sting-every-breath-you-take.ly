@@ -98,12 +98,12 @@ sectionAPrime = #(define-music-function (scoreOnly) (boolean?) #{
   \sectionAPrimeStart
   \toCoda
   \break
-  \repeat percent 2 \repeat unfold 8 ees'8\3
-  \repeat percent 2 \repeat unfold 8 ges,
+  \repeat percent 2 { \repeat unfold 8 e'8\3 \noBreak }
+  \repeat percent 2 { \repeat unfold 8 ges, \noBreak }
   #(if scoreOnly #{ \break #})
-  \repeat percent 2 \repeat unfold 8 ees'\3
-  \repeat percent 2 \repeat unfold 8 ges,
-  \repeat percent 2 \repeat unfold 8 ees'\3
+  \repeat percent 2 { \repeat unfold 8 e'\3 \noBreak }
+  \repeat percent 2 { \repeat unfold 8 ges, \noBreak }
+  \repeat percent 2 { \repeat unfold 8 e'\3 \noBreak }
   \break
   \repeat volta 2 {
     \repeat percent 2 \repeat unfold 8 aes,

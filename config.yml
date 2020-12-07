@@ -15,3 +15,6 @@
 - command: update
   path: repository
   value: jeandeaual/lilypond-bass-sting-every-breath-you-take
+- command: update
+  path: copyright
+  value: true

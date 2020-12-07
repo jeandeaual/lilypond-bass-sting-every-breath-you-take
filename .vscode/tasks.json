@@ -10,6 +10,7 @@
                 "isDefault": true
             },
             "isBackground": true,
+            "problemMatcher": []
         },
         {
             "label": "Build",

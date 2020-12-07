@@ -4,8 +4,11 @@ layout: default
 
 {% assign a4_files = site.static_files | where: "a4", true | where: "extname", ".pdf" | sort: "basename" %}
 {% assign letter_files = site.static_files | where: "letter", true | where: "extname", ".pdf" | sort: "basename" %}
+{% assign a3_files = site.static_files | where: "a3", true | where: "extname", ".pdf" | sort: "basename" %}
+{% assign tabloid_files = site.static_files | where: "tabloid", true | where: "extname", ".pdf" | sort: "basename" %}
 {% assign svg_files = site.static_files | where: "svg", true | where: "extname", ".svg" | sort: "basename" %}
 {% assign midi_files = site.static_files | where: "midi", true | where: "extname", ".midi" | sort: "basename" %}
+{% assign video_files = site.static_files | where: "video", true | sort: "basename" %}
 
 # Downloads
 
@@ -19,6 +22,20 @@ layout: default
 {% if letter_files != empty %}
 ## Letter
     {% for file in letter_files %}
+* [{{ file.name }}]({{ file.path | relative_url }})
+    {% endfor %}
+{% endif %}
+
+{% if a3_files != empty %}
+## A3
+    {% for file in a3_files %}
+* [{{ file.name }}]({{ file.path | relative_url }})
+    {% endfor %}
+{% endif %}
+
+{% if tabloid_files != empty %}
+## Tabloid
+    {% for file in tabloid_files %}
 * [{{ file.name }}]({{ file.path | relative_url }})
     {% endfor %}
 {% endif %}
@@ -63,6 +80,21 @@ layout: default
         {% endif %}
 ![{{ file.basename }}]({{ file.path | relative_url }})
     {% endfor %}
+{% endif %}
+
+{% if video_files != empty %}
+## Video
+    {% for file in video_files %}
+<video title="{{ file.name }}" width="640" height="360" controls>
+  <source type="video/mp4" src="{{ file.path | relative_url }}">
+</video>
+    {% endfor %}
+{% endif %}
+
+<br>
+
+{% if site.copyright %}
+All content on this page is the property of the copyright owner of the original composition.
 {% endif %}
 
 Last update on {{ site.time | date: "%Y-%m-%d %H:%M UTC" }}.

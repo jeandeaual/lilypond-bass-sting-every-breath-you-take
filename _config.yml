@@ -4,6 +4,7 @@ url: https://jeandeaual.github.io
 repository: jeandeaual/lilypond-bass-sting-every-breath-you-take
 lang: en-US
 show_downloads: false
+copyright: true
 # Build settings
 theme: jekyll-theme-minimal
 plugins: []
@@ -17,6 +18,14 @@ defaults:
     values:
       letter: true
   - scope:
+      path: "a3"
+    values:
+      a3: true
+  - scope:
+      path: "tabloid"
+    values:
+      tabloid: true
+  - scope:
       path: "svg"
     values:
       svg: true
@@ -24,3 +33,7 @@ defaults:
       path: "midi"
     values:
       midi: true
+  - scope:
+      path: "video"
+    values:
+      video: true

@@ -6,7 +6,12 @@
   composer = "Sting"
   pdfarranger = "東 幸治"
   author = \markup \fromproperty #'header:composer
-  subject = \markup \concat { \fromproperty #'header:title " Bass Partition" }
+  subject = \markup \concat {
+    "Bass partition for “"
+    \fromproperty #'header:title
+    "” by "
+    \fromproperty #'header:composer
+  }
   keywords = #(string-join '(
     "music"
     "partition"

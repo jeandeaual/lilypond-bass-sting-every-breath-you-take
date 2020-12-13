@@ -47,6 +47,18 @@ layout: default
     {% endfor %}
 {% endif %}
 
+{% if video_files != empty %}
+## Video
+
+    {% for file in video_files %}
+### {{ file.basename }}
+<video title="{{ file.name }}" width="480" height="270" controls>
+  <source type="video/mp4" src="{{ file.path | relative_url }}">
+  <p><a href="{{ file.path | relative_url }}">{{ file.name }}</a></p>
+</video>
+    {% endfor %}
+{% endif %}
+
 {% if svg_files != empty %}
 # Preview
     {% assign svg_file_count = 0 %}
@@ -79,15 +91,6 @@ layout: default
             {% endif %}
         {% endif %}
 ![{{ file.basename }}]({{ file.path | relative_url }})
-    {% endfor %}
-{% endif %}
-
-{% if video_files != empty %}
-## Video
-    {% for file in video_files %}
-<video title="{{ file.name }}" width="640" height="360" controls>
-  <source type="video/mp4" src="{{ file.path | relative_url }}">
-</video>
     {% endfor %}
 {% endif %}
 

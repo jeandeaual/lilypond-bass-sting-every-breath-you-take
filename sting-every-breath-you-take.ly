@@ -11,6 +11,7 @@
     \fromproperty #'header:title
     "” by "
     \fromproperty #'header:composer
+    "."
   }
   keywords = #(string-join '(
     "music"
@@ -162,36 +163,37 @@ song = #(define-music-function (scoreOnly) (boolean?) #{
 staves = #(define-music-function (scoreOnly) (boolean?) #{
   \new StaffGroup <<
     \new ChordNames {
-      \chords {
+      \set chordChanges = ##t
+      \chordmode {
         % Intro
-        aes1:9 s f:m9 s
-        des:9 ees:9 aes:9 s
+        aes1:9 q f:m9 q
+        des:9 ees:9 aes:9 q
         % A
-        aes1:9 s f:m9 s
-        des:9 ees:9 f:m9 s
-        aes1:9 s f:m9 s
-        des:9 ees:9 aes:9 s
+        aes1:9 q f:m9 q
+        des:9 ees:9 f:m9 q
+        aes1:9 q f:m9 q
+        des:9 ees:9 aes:9 q
         % B
-        des:9 des/b aes:9 s
-        bes:9 s ees:9 s
+        des:9 des/b aes:9 q
+        bes:9 q ees:9 q
         % A′
-        aes:9 s f:m9 s
-        des:9 ees:9 f:m9 s
+        aes:9 q f:m9 q
+        des:9 ees:9 f:m9 q
         \repeat unfold 2 {
-          e s ges s
+          e q ges q
         }
-        e s
+        e q
         \repeat volta 2 {
-          aes:9 s f:m9 s
+          aes:9 q f:m9 q
           des:9 ees:9
         }
         \alternative {
-          { f:m9 s }
-          { aes:9 s }
+          { f:m9 q }
+          { aes:9 q }
         }
-        des:9 ees:9 f:m9 s s s
+        des:9 ees:9 f:m9 q q q
         % Outro
-        aes:9 s f:m9 des:9
+        aes:9 q f:m9 des:9
       }
     }
 
@@ -220,7 +222,8 @@ staves = #(define-music-function (scoreOnly) (boolean?) #{
   \score {
     \staves ##f
     \layout {
-      \omit Voice.StringNumber
+      \context Voice
+      \omit StringNumber
     }
   }
 
